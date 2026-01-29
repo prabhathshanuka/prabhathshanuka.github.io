@@ -49,7 +49,7 @@ body::before {
 
 /* LOGO ICON (SCALED UP) */
 .logo img {
-  width: 52px;
+  width: 104px;
   height: auto;
   filter: drop-shadow(0 0 10px var(--blue-soft));
 }
