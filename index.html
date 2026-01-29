@@ -3,64 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dependabits</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ================= NAVBAR ================= -->
 <header class="navbar">
   <div class="logo">
-    <img src="assets/logo.png" alt="Dependabits Logo">
+    <img src="logo.png" alt="Dependabits">
     <span>DEPENDABITS</span>
   </div>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Programs</a>
+    <a href="#">Approach</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <button class="nav-btn">Enroll</button>
 </header>
 
-<section class="hero">
-  <div class="hero-left">
-    <h1>
-      Building Future<br>
-      Innovators Through<br>
-      <span>Computing & Technology</span>
-    </h1>
+<!-- ================= HERO SLIDESHOW ================= -->
+<section class="hero-slider">
 
-    <p>
-      IGCSE International Computing, Robotics, AI & Programming  
-      <br>Grades 6–11 · Anuradhapura
-    </p>
-
-    <div class="cta">
-      <button>Learn More</button>
-      <span>✓ Project-Based & Exam Aligned</span>
+  <div class="slide active">
+    <div class="slide-content">
+      <h1>Building Future Innovators<br><span>Through Computing</span></h1>
+      <p>IGCSE Computing, Robotics, AI & Programming for Grades 6–11</p>
+      <button>Explore Programs</button>
     </div>
+    <img src="teacher.png" alt="">
   </div>
 
-  <div class="hero-right">
-    <div class="glass-card">
-      <img src="assets/founder.png" alt="Instructor">
+  <div class="slide">
+    <div class="slide-content">
+      <h1>Project-Based Learning<br><span>That Actually Works</span></h1>
+      <p>Hands-on labs, real projects & exam alignment</p>
+      <button>Our Method</button>
     </div>
+    <img src="teacher.png" alt="">
   </div>
+
 </section>
 
-<section class="features">
-  <div class="feature glass">
-    <h3>IGCSE Aligned</h3>
-    <p>Mapped to international syllabus & exam patterns.</p>
-  </div>
-  <div class="feature glass">
-    <h3>Hands-on Learning</h3>
-    <p>Robotics, coding, AI & real-world projects.</p>
-  </div>
-  <div class="feature glass">
-    <h3>Future Skills</h3>
-    <p>Logic, creativity, confidence & problem solving.</p>
-  </div>
+<!-- ================= TRUST STRIP ================= -->
+<section class="trust">
+  <div>✔ IGCSE Aligned</div>
+  <div>✔ Hands-on Robotics</div>
+  <div>✔ AI & Programming</div>
+  <div>✔ Anuradhapura</div>
 </section>
 
 <script src="script.js"></script>
 </body>
 </html>
-
