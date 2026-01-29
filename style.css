@@ -122,7 +122,11 @@ body {
   text-align: center;
   border-radius: 8px;
 }
-
+.logo{
+  width: 220px;
+  height: 220px;
+  
+}
 /* CTA */
 .cta {
   padding: 50px 20px;
