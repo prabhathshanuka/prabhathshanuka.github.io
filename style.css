@@ -180,11 +180,11 @@ body {
     align-items: center;
   }
   .hero-image img {
-    max-width: 420px;
+    max-width: 20%;
   }
 
    .slideshow {
-    width: 65%;
+    width: 80%;
     height: 480px;  
    }
   .features {
