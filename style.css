@@ -107,7 +107,7 @@ body {
 /* HERO IMAGE */
 .hero-image img {
   width: 100%;
-  max-width: 320px;
+  max-width:740px;
   border-radius: 14px;
   border: 1px solid rgba(0, 194, 255, 0.3);
 }
