@@ -1,52 +1,210 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dependabits | Future Learning</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Smart Flood Management System</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+
+    header {
+      background: #12345a;
+      color: white;
+      padding: 24px;
+    }
+
+    header p { color: #d6e5f5; }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0000000b;
+    }
+
+    .label { color: #64748b; font-size: 14px; }
+    .value { font-size: 27px; font-weight: bold; margin-top: 12px; }
+    .chart { margin-top: 20px; height: 300px; }
+    #status { font-weight: bold; }
+    .muted { color: #64748b; font-size: 13px; }
+  </style>
 </head>
+
 <body>
-
-<header class="navbar">
-  <div class="brand">
-    <img src="assets/logo.png" alt="Dependabits Logo">
-    <span>DEPENDABITS</span>
-  </div>
-
-  <nav class="nav-links">
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Programs</a>
-    <a href="#">Gallery</a>
-    <a href="#">Contact</a>
-  </nav>
+<header>
+  <h1>Smart Flood Management System</h1>
+  <p>ESP32 sensor monitoring dashboard</p>
+  <div>Connection: <span id="connection">Connecting...</span></div>
+  <p id="updated">Waiting for sensor data...</p>
 </header>
->
 
-<!-- WHAT STUDENTS LEARN -->
-<section class="section dark">
-  <h2 class="section-title">What Students Learn</h2>
+<main>
+  <h2>Live Sensor Readings</h2>
 
-  <div class="learn-grid">
-    <div class="learn-item">Programming</div>
-    <div class="learn-item">Robotics/Electronics</div>
-    <div class="learn-item">Artificial Intelligence</div>
-    <div class="learn-item">3D Design</div>
-    <div class="learn-item">Science Experiments</div>
-    <div class="learn-item">Future Technologies</div>
+  <div class="grid">
+    <div class="card">
+      <div class="label">Water Depth</div>
+      <div class="value" id="depth">-- cm</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Rain Sensor Analog</div>
+      <div class="value" id="rainAnalog">--</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Rain Detected</div>
+      <div class="value" id="rainDetected">--</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Flood Alert Level</div>
+      <div class="value" id="risk">--</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Distance to Water</div>
+      <div class="value" id="distance">-- cm</div>
+    </div>
+
+    <div class="card">
+      <div class="label">Water Rise / Fall Rate</div>
+      <div class="value" id="rate">-- cm/min</div>
+    </div>
   </div>
-</section>
 
-<footer class="footer">
-  <p>© 2026 Dependabits · Anuradhapura · Sri Lanka</p>
-</footer>
+  <div class="card chart">
+    <h3>Water Depth History</h3>
+    <canvas id="waterChart"></canvas>
+  </div>
 
-<script src="script.js"></script>
+  <p class="muted">
+    Data source: ThingSpeak channel 3541164.
+    Readings refresh every 20 seconds.
+  </p>
+</main>
+
+<script>
+  const CHANNEL_ID = "3541164";
+
+  // This starter uses a PUBLIC ThingSpeak channel.
+  // Do not place private API keys in public website code.
+
+  const latestURL =
+    `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`;
+
+  const historyURL =
+    `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?results=30`;
+
+  const chart = new Chart(
+    document.getElementById("waterChart"),
+    {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Water depth (cm)",
+          data: [],
+          borderColor: "#1683d8",
+          backgroundColor: "#1683d820",
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: "Depth (cm)"
+            }
+          }
+        }
+      }
+    }
+  );
+
+  function show(id, value, unit = "") {
+    document.getElementById(id).textContent =
+      value === null || value === undefined || value === ""
+        ? "--"
+        : value + unit;
+  }
+
+  async function updateDashboard() {
+    try {
+      const response = await fetch(latestURL);
+      if (!response.ok) throw new Error("Unable to read channel");
+
+      const d = await response.json();
+
+      if (!d.created_at) throw new Error("No readings available");
+
+      show("depth", d.field1, " cm");
+      show("rainAnalog", d.field2);
+      show("rainDetected", d.field3);
+      show("risk", d.field4);
+      show("distance", d.field5, " cm");
+      show("rate", d.field6, " cm/min");
+
+      document.getElementById("connection").textContent = "Connected";
+      document.getElementById("updated").textContent =
+        "Last sensor update: " +
+        new Date(d.created_at).toLocaleString();
+
+      const historyResponse = await fetch(historyURL);
+      if (!historyResponse.ok) throw new Error("History unavailable");
+
+      const history = await historyResponse.json();
+
+      const feeds = history.feeds || [];
+
+      chart.data.labels = feeds.map(f =>
+        new Date(f.created_at).toLocaleTimeString()
+      );
+
+      chart.data.datasets[0].data = feeds.map(f =>
+        f.field1 === null ? null : Number(f.field1)
+      );
+
+      chart.update();
+
+    } catch (error) {
+      document.getElementById("connection").textContent =
+        "Connection error";
+
+      console.error(error);
+    }
+  }
+
+  updateDashboard();
+  setInterval(updateDashboard, 20000);
+</script>
 </body>
 </html>
-
-
-
-
-
