@@ -9,7 +9,9 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -24,7 +26,9 @@
       padding: 24px;
     }
 
-    header p { color: #d6e5f5; }
+    header p {
+      color: #d6e5f5;
+    }
 
     main {
       max-width: 1100px;
@@ -45,26 +49,277 @@
       box-shadow: 0 2px 8px #0000000b;
     }
 
-    .label { color: #64748b; font-size: 14px; }
-    .value { font-size: 27px; font-weight: bold; margin-top: 12px; }
-    .chart { margin-top: 20px; height: 300px; }
-    #status { font-weight: bold; }
-    .muted { color: #64748b; font-size: 13px; }
+    .label {
+      color: #64748b;
+      font-size: 14px;
+    }
+
+    .value {
+      font-size: 27px;
+      font-weight: bold;
+      margin-top: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .chart {
+      margin-top: 20px;
+      height: 300px;
+    }
+
+    #status {
+      font-weight: bold;
+    }
+
+    .muted {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    /* ==============================
+       FLOOD ALERT POPUP
+    ============================== */
+
+    .flood-overlay[hidden] {
+      display: none !important;
+    }
+
+    .flood-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.88);
+      overflow-y: auto;
+    }
+
+    .flood-popup {
+      width: 100%;
+      max-width: 650px;
+      padding: 32px;
+      border: 5px solid #dc2626;
+      border-radius: 18px;
+      background: white;
+      color: #172033;
+      text-align: center;
+      box-shadow: 0 0 35px rgba(220, 38, 38, 0.5);
+      animation: warningPulse 1.5s infinite alternate;
+    }
+
+    .warning-icon {
+      font-size: 60px;
+      margin-bottom: 8px;
+    }
+
+    .popup-level {
+      color: #b91c1c;
+      font-size: 18px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      margin: 8px 0;
+    }
+
+    .flood-popup h2 {
+      color: #b91c1c;
+      font-size: clamp(26px, 5vw, 40px);
+      margin: 12px 0;
+    }
+
+    #popupMessage {
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .popup-readings {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 24px 0;
+    }
+
+    .popup-readings div {
+      background: #f1f5f9;
+      padding: 14px 8px;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .popup-readings span {
+      display: block;
+      color: #64748b;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .popup-readings strong {
+      font-size: 20px;
+      color: #b91c1c;
+    }
+
+    .popup-advice {
+      font-weight: bold;
+      line-height: 1.5;
+      margin: 20px 0;
+    }
+
+    #acknowledgeButton {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 9px;
+      background: #b91c1c;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #acknowledgeButton:hover {
+      filter: brightness(0.9);
+    }
+
+    /* Level 1: Yellow/orange */
+    .flood-popup.level-1 {
+      border-color: #d97706;
+    }
+
+    .flood-popup.level-1 h2,
+    .flood-popup.level-1 .popup-level,
+    .flood-popup.level-1 .popup-readings strong {
+      color: #b45309;
+    }
+
+    .flood-popup.level-1 #acknowledgeButton {
+      background: #b45309;
+    }
+
+    /* Level 2: Orange */
+    .flood-popup.level-2 {
+      border-color: #ea580c;
+    }
+
+    .flood-popup.level-2 h2,
+    .flood-popup.level-2 .popup-level,
+    .flood-popup.level-2 .popup-readings strong {
+      color: #c2410c;
+    }
+
+    .flood-popup.level-2 #acknowledgeButton {
+      background: #c2410c;
+    }
+
+    /* Level 3: Red */
+    .flood-popup.level-3 {
+      border-color: #dc2626;
+    }
+
+    .flood-popup.level-3 h2,
+    .flood-popup.level-3 .popup-level,
+    .flood-popup.level-3 .popup-readings strong {
+      color: #b91c1c;
+    }
+
+    .flood-popup.level-3 #acknowledgeButton {
+      background: #b91c1c;
+    }
+
+    @keyframes warningPulse {
+      from {
+        box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+      }
+      to {
+        box-shadow: 0 0 35px rgba(220, 38, 38, 0.6);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .flood-popup {
+        padding: 20px 14px;
+      }
+
+      .popup-readings {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+<!-- FLOOD ALERT POPUP -->
+<div id="floodPopup"
+     class="flood-overlay"
+     role="alertdialog"
+     aria-modal="true"
+     aria-labelledby="popupTitle"
+     hidden>
+
+  <div id="floodPopupBox" class="flood-popup level-3">
+
+    <div class="warning-icon">⚠️</div>
+
+    <p id="popupLevel" class="popup-level">
+      FLOOD ALERT LEVEL 3
+    </p>
+
+    <h2 id="popupTitle">
+      CRITICAL FLOOD WARNING
+    </h2>
+
+    <p id="popupMessage">
+      Critical flood risk detected. Check the current conditions.
+    </p>
+
+    <div class="popup-readings">
+      <div>
+        <span>Water Depth</span>
+        <strong id="popupDepth">-- cm</strong>
+      </div>
+
+      <div>
+        <span>Water Rise / Fall Rate</span>
+        <strong id="popupRate">-- cm/min</strong>
+      </div>
+
+      <div>
+        <span>Distance to Water</span>
+        <strong id="popupDistance">-- cm</strong>
+      </div>
+    </div>
+
+    <p id="popupAdvice" class="popup-advice"></p>
+
+    <button id="acknowledgeButton"
+            type="button"
+            onclick="acknowledgeFloodAlert()">
+      Acknowledge Warning
+    </button>
+
+  </div>
+</div>
+
+<!-- DASHBOARD HEADER -->
 <header>
   <h1>Smart Flood Management System</h1>
   <p>ESP32 sensor monitoring dashboard</p>
-  <div>Connection: <span id="connection">Connecting...</span></div>
+
+  <div>
+    Connection:
+    <span id="connection">Connecting...</span>
+  </div>
+
   <p id="updated">Waiting for sensor data...</p>
 </header>
 
+<!-- MAIN DASHBOARD -->
 <main>
+
   <h2>Live Sensor Readings</h2>
 
   <div class="grid">
+
     <div class="card">
       <div class="label">Water Depth</div>
       <div class="value" id="depth">-- cm</div>
@@ -94,6 +349,7 @@
       <div class="label">Water Rise / Fall Rate</div>
       <div class="value" id="rate">-- cm/min</div>
     </div>
+
   </div>
 
   <div class="card chart">
@@ -105,13 +361,15 @@
     Data source: ThingSpeak channel 3541164.
     Readings refresh every 20 seconds.
   </p>
+
 </main>
 
 <script>
-  const CHANNEL_ID = "3541164";
+  // =====================================
+  // THINGSPEAK CONFIGURATION
+  // =====================================
 
-  // This starter uses a PUBLIC ThingSpeak channel.
-  // Do not place private API keys in public website code.
+  const CHANNEL_ID = "3541164";
 
   const latestURL =
     `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`;
@@ -119,12 +377,19 @@
   const historyURL =
     `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?results=30`;
 
+
+  // =====================================
+  // WATER DEPTH HISTORY CHART
+  // =====================================
+
   const chart = new Chart(
     document.getElementById("waterChart"),
     {
       type: "line",
+
       data: {
         labels: [],
+
         datasets: [{
           label: "Water depth (cm)",
           data: [],
@@ -134,12 +399,15 @@
           tension: 0.3
         }]
       },
+
       options: {
         responsive: true,
         maintainAspectRatio: false,
+
         scales: {
           y: {
             beginAtZero: true,
+
             title: {
               display: true,
               text: "Depth (cm)"
@@ -150,22 +418,165 @@
     }
   );
 
+
+  // =====================================
+  // DISPLAY HELPER
+  // =====================================
+
   function show(id, value, unit = "") {
     document.getElementById(id).textContent =
-      value === null || value === undefined || value === ""
+      value === null ||
+      value === undefined ||
+      value === ""
         ? "--"
         : value + unit;
   }
 
+
+  // =====================================
+  // FLOOD ALERT LEVEL PARSER
+  // field4 must contain 0, 1, 2, or 3,
+  // or text such as "Level 2".
+  // =====================================
+
+  function getAlertLevel(value) {
+    if (
+      value === null ||
+      value === undefined ||
+      value === ""
+    ) {
+      return 0;
+    }
+
+    const text = String(value).trim().toLowerCase();
+
+    const match = text.match(/(?:level|alert)\s*([0-3])/);
+
+    if (match) {
+      return Number(match[1]);
+    }
+
+    const number = Number(text);
+
+    if (
+      Number.isInteger(number) &&
+      number >= 0 &&
+      number <= 3
+    ) {
+      return number;
+    }
+
+    return 0;
+  }
+
+
+  // =====================================
+  // FLOOD ALERT POPUP
+  // =====================================
+
+  let currentAlertLevel = 0;
+  let acknowledgedLevel = 0;
+
+  function updateFloodPopup(d) {
+    const level = getAlertLevel(d.field4);
+
+    const popup = document.getElementById("floodPopup");
+    const popupBox = document.getElementById("floodPopupBox");
+
+    // Hide the warning when the alert returns to normal.
+    if (level === 0) {
+      popup.hidden = true;
+      currentAlertLevel = 0;
+      acknowledgedLevel = 0;
+      return;
+    }
+
+    // Reset acknowledgement when the risk level changes.
+    if (level !== currentAlertLevel) {
+      acknowledgedLevel = 0;
+    }
+
+    currentAlertLevel = level;
+
+    // Insert current sensor readings into the popup.
+    show("popupDepth", d.field1, " cm");
+    show("popupRate", d.field6, " cm/min");
+    show("popupDistance", d.field5, " cm");
+
+    // Apply the colour for the active level.
+    popupBox.className = `flood-popup level-${level}`;
+
+    const titles = {
+      1: "WARNING: FLOOD LEVEL 1",
+      2: "DANGER: FLOOD LEVEL 2",
+      3: "CRITICAL: FLOOD LEVEL 3"
+    };
+
+    const messages = {
+      1: "Elevated flood risk detected. Monitor the water level closely.",
+
+      2: "High flood risk detected. Prepare to move to a safer location if necessary.",
+
+      3: "Critical flood risk detected. Follow official emergency instructions and move to safety if advised."
+    };
+
+    const advice = {
+      1: "Monitor the readings and stay alert.",
+
+      2: "Avoid flood-prone areas and prepare for possible evacuation.",
+
+      3: "Prioritize safety. Follow local authorities' emergency guidance."
+    };
+
+    document.getElementById("popupLevel").textContent =
+      `FLOOD ALERT LEVEL ${level}`;
+
+    document.getElementById("popupTitle").textContent =
+      titles[level];
+
+    document.getElementById("popupMessage").textContent =
+      messages[level];
+
+    document.getElementById("popupAdvice").textContent =
+      advice[level];
+
+    // Show the popup unless this same level was acknowledged.
+    popup.hidden = acknowledgedLevel === level;
+  }
+
+
+  // =====================================
+  // ACKNOWLEDGE WARNING BUTTON
+  // =====================================
+
+  function acknowledgeFloodAlert() {
+    acknowledgedLevel = currentAlertLevel;
+
+    document.getElementById("floodPopup").hidden = true;
+  }
+
+
+  // =====================================
+  // FETCH LIVE SENSOR DATA
+  // =====================================
+
   async function updateDashboard() {
     try {
-      const response = await fetch(latestURL);
-      if (!response.ok) throw new Error("Unable to read channel");
+      const response = await fetch(latestURL, {
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to read ThingSpeak channel");
+      }
 
       const d = await response.json();
 
-      if (!d.created_at) throw new Error("No readings available");
+      if (!d.created_at) {
+        throw new Error("No sensor readings available");
+      }
 
+      // Update the live dashboard values.
       show("depth", d.field1, " cm");
       show("rainAnalog", d.field2);
       show("rainDetected", d.field3);
@@ -173,24 +584,37 @@
       show("distance", d.field5, " cm");
       show("rate", d.field6, " cm/min");
 
-      document.getElementById("connection").textContent = "Connected";
+      // Update the flood alert popup.
+      updateFloodPopup(d);
+
+      // Update connection information.
+      document.getElementById("connection").textContent =
+        "Connected";
+
       document.getElementById("updated").textContent =
         "Last sensor update: " +
         new Date(d.created_at).toLocaleString();
 
-      const historyResponse = await fetch(historyURL);
-      if (!historyResponse.ok) throw new Error("History unavailable");
+      // Fetch water depth history.
+      const historyResponse = await fetch(historyURL, {
+        cache: "no-store"
+      });
+
+      if (!historyResponse.ok) {
+        throw new Error("Unable to load sensor history");
+      }
 
       const history = await historyResponse.json();
-
       const feeds = history.feeds || [];
 
-      chart.data.labels = feeds.map(f =>
-        new Date(f.created_at).toLocaleTimeString()
+      chart.data.labels = feeds.map(feed =>
+        new Date(feed.created_at).toLocaleTimeString()
       );
 
-      chart.data.datasets[0].data = feeds.map(f =>
-        f.field1 === null ? null : Number(f.field1)
+      chart.data.datasets[0].data = feeds.map(feed =>
+        feed.field1 === null || feed.field1 === ""
+          ? null
+          : Number(feed.field1)
       );
 
       chart.update();
@@ -199,12 +623,21 @@
       document.getElementById("connection").textContent =
         "Connection error";
 
-      console.error(error);
+      console.error("Dashboard update failed:", error);
     }
   }
 
+
+  // =====================================
+  // INITIALIZE AND REFRESH
+  // =====================================
+
   updateDashboard();
+
+  // Refresh every 20 seconds.
   setInterval(updateDashboard, 20000);
+
 </script>
+
 </body>
 </html>
