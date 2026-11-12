@@ -1,0 +1,290 @@
+{
+  "algorithms": [
+    "Understanding Algorithms",
+    "Problem solving & algorithms",
+    "An algorithm is a finite, ordered set of clear instructions designed to solve a problem or complete a task. A good algorithm has a clearly understood purpose, a logical order, precise instructions and a definite outcome. It should be possible to follow each step without guessing. Algorithms are designed before implementation so that the logic can be checked independently of a programming language.\n\nAlgorithms can be represented using written descriptions, flowcharts or pseudocode. A written description uses ordinary language; a flowchart uses standard symbols and arrows; pseudocode uses structured, code-like statements. All three describe the same underlying logic, but each makes different aspects easier to understand. An algorithm should be tested with sample data, including typical values and boundary cases, to check that it produces the expected result.",
+    "The LIS scheme introduces written descriptions, flowcharts and pseudocode as ways to represent algorithms. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Written descriptions; Flowcharts; Pseudocode",
+    "Task: Describe how to make a cup of tea, draw its flowchart and write equivalent pseudocode. Identify the input, processing and output in a second example.",
+    "September 7–11, 2026 · Teacher guide p. 1.8"
+  ],
+  "written-descriptions": [
+    "Written Descriptions",
+    "Understanding Algorithms",
+    "A written description explains an algorithm using ordinary language. Each instruction should communicate one clear action and should be arranged in the exact order in which it must be performed. Avoid vague words such as “process it” unless the required processing is explained. Use action verbs such as input, calculate, compare, store and display.\n\nFor a total-cost task, the steps could be: obtain the price of the first item; obtain the price of the second item; add the two prices; store the result as the total; display the total. The description should identify required inputs, the processing performed and the output produced. Check that no step is missing and that another person could follow the instructions and obtain the same result.",
+    "Use precise, unambiguous instructions and arrange them in the order they must happen. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Algorithm design; Flowcharts; Pseudocode",
+    "Task: Write precise numbered steps to calculate the total and average of three marks. Exchange descriptions with a partner and follow them literally to find unclear steps.",
+    "September 7–11, 2026"
+  ],
+  "flowcharts": [
+    "Flowcharts",
+    "Understanding Algorithms",
+    "A flowchart is a graphical representation of an algorithm. It uses standard symbols connected by arrows to show the order of operations and the direction of control. Common symbols include an oval or rounded terminator for Start/End, a parallelogram for Input/Output, a rectangle for a process or calculation, and a diamond for a decision.\n\nA decision diamond contains a condition and normally has two labelled outgoing branches, such as Yes/No or True/False. Arrows must make the flow clear, and the chart should have a logical start and end. For example, to add two numbers: Start → input A and B → calculate Total = A + B → display Total → End. When checking a flowchart, trace each possible path and confirm that every decision branch leads to an appropriate next step.",
+    "Flowcharts are one of the representations listed in the September scheme of work. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Written descriptions; Pseudocode; Algorithm design",
+    "Task: Draw a flowchart that inputs two numbers, compares them and displays the larger number (or reports equality). Label both decision branches.",
+    "September 7–11, 2026"
+  ],
+  "pseudocode": [
+    "Pseudocode",
+    "Understanding Algorithms",
+    "Pseudocode describes an algorithm in a structured, code-like form without requiring the exact syntax of a particular programming language. It allows the programmer to focus on the logic rather than punctuation or language-specific rules. Use meaningful identifiers and consistent indentation to make the structure easy to follow.\n\nTypical statements include INPUT to receive data, OUTPUT to display information, assignment to store a calculated value, IF/ELSE for selection and FOR or WHILE for iteration. For example: INPUT FirstNumber; INPUT SecondNumber; Total ← FirstNumber + SecondNumber; OUTPUT Total. Follow the pseudocode conventions required by the course or examination board, especially the command set in Appendix 3. Pseudocode should be traceable line by line and should clearly show sequence, decisions and repetition.",
+    "The scheme introduces the pseudocode command set in Appendix 3 during September Week 3. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Flowcharts; Algorithm design; Python implementation",
+    "Task: Write pseudocode to input a student's name and three marks, calculate the average and output the name and average.",
+    "September 7–18, 2026 · Appendix 3"
+  ],
+  "algorithm-design": [
+    "Algorithm Design",
+    "Creating Algorithms",
+    "Algorithm design is the process of analysing a problem and planning a reliable sequence of steps to solve it. First identify the problem and the required output. Then determine what input data is needed, what processing must occur, and what decisions or repetitions are required. Break a complex task into smaller manageable steps.\n\nChoose suitable constructs: sequence for instructions performed in order, selection when a condition determines which path is followed, and iteration when instructions must be repeated. Use meaningful names, make conditions precise and consider invalid or boundary input. Before coding, dry-run the algorithm using sample values and compare the actual result with the expected result. Only after the logic is correct should it be implemented in a programming language.",
+    "The scheme progresses from understanding algorithms to creating algorithms and representing sequence, selection and iteration. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Sequence; Selection; Iteration",
+    "Task: Plan a simple ticket-price calculator. Identify inputs, outputs, calculations, conditions and test data before writing pseudocode.",
+    "September 21–October 2, 2026 · Textbook pp. 12–14"
+  ],
+  "sequence": [
+    "Sequence",
+    "Algorithm constructs",
+    "Sequence is the control structure in which instructions are executed one after another in the order in which they appear. There is no branching to an alternative path and no repetition. The order matters because later instructions may depend on values calculated or stored earlier.\n\nA simple sequence program might input two numbers, calculate their sum and display the answer. Variables can store input values and intermediate results. Arithmetic operators perform calculations, while input and output statements communicate with the user. When tracing a sequence algorithm, follow every statement from the first to the last and record how variable values change.",
+    "The scheme develops Python programs with sequence during September, alongside algorithm examples. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Variables; Input & output; Arithmetic operators; Type coercion",
+    "Task: Input length and width, calculate area = length × width, and display the area. Trace the values in execution order.",
+    "September 14–October 2, 2026 · Textbook pp. 37–38"
+  ],
+  "selection": [
+    "Selection",
+    "Algorithm constructs",
+    "Selection is a control structure that allows a program to choose which instruction or block to execute according to a condition. The condition is evaluated as True or False. A simple selection may use IF; a two-way selection uses IF/ELSE; multiple alternatives may use an IF/ELIF/ELSE structure where supported by the language.\n\nSelection depends on conditions, relational operators and sometimes logical operators. For example, a program can compare a student's mark with 50 and display “Pass” when the condition is true or “Not yet passed” otherwise. Check that conditions cover the intended cases, that comparison operators are correct and that each branch produces the required result.",
+    "The scheme introduces representing selection in algorithms and then develops Python selection programs in October. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Conditions; Relational operators; Logical operators; IF / ELSE",
+    "Task: Input a mark and select an output for pass/fail. Test marks immediately below, equal to and above the pass boundary.",
+    "September 21–October 16, 2026 · Textbook pp. 38–42"
+  ],
+  "iteration": [
+    "Iteration",
+    "Algorithm constructs",
+    "Iteration is a control structure that repeats a statement or group of statements. Repetition avoids writing the same instructions many times and is useful for processing lists of values, counting, accumulating totals and repeating a task.\n\nThe course introduces definite iteration, where the number of repetitions is known in advance. A FOR loop is commonly used for this purpose. When designing a loop, identify the loop variable, its starting value, the number of repetitions and how the value changes. Trace the loop carefully to confirm that it repeats the correct number of times and terminates as expected.",
+    "The scheme introduces representing iteration in algorithms, then practises definite iteration in Python in October. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Definite iteration; Repeated instructions; Flowcharts; Pseudocode",
+    "Task: Design an algorithm to display the numbers 1 to 5. Trace the loop variable and count each execution.",
+    "September 21–October 23, 2026 · Textbook pp. 12–14, 43–45"
+  ],
+  "python": [
+    "Python Foundations",
+    "Programming with Python",
+    "Python is a high-level programming language used for the practical programming work in this unit. It has readable syntax and supports variables, data types, input/output, arithmetic, selection and iteration. Python code is written as statements and executed by the Python interpreter.\n\nA basic program can assign a value to a variable and display it with print(). The input() function receives keyboard input as text. Convert input to int or float when numeric calculations are required. Python is case-sensitive, so identifiers such as total and Total are different. Indentation is significant when writing blocks such as IF statements and loops.",
+    "The scheme introduces Python, data types, variable initialisation and Python basics in September. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Data types; Variables; Input & output; Operators",
+    "Task: Write and run a Python program that stores a student's name and age in variables and displays a formatted greeting.",
+    "September 7–11, 2026 · Textbook pp. 34–36"
+  ],
+  "data-types": [
+    "Data Types",
+    "Python Foundations",
+    "A data type identifies the kind of value stored or processed. Common Python types at this level include int for whole numbers, float for numbers with a fractional part, str for text and bool for True/False values. Examples: 12 is an integer, 3.5 is a float and \"Hello\" is a string.\n\nThe data type affects which operations are appropriate. Numbers can be used in arithmetic, while strings represent text and can be joined using concatenation. input() returns a string, even when the user types digits, so convert the value before performing numeric calculations. Use type() in Python to inspect a value's type. Select a suitable type for each variable and be aware of conversions between types.",
+    "The scheme explicitly introduces data types in Python and other programming languages. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Variables; Type coercion; Input & output",
+    "Task: Classify 25, 3.75, \"ICT\" and True. Use type() to confirm each Python data type.",
+    "September 7–11, 2026 · Textbook pp. 34–36"
+  ],
+  "variables": [
+    "Variables & Initialisation",
+    "Python Foundations",
+    "A variable is a named reference used to store a value while a program runs. The value may change during execution. Initialisation means assigning a starting value to a variable before it is used. For example, student_name = \"Amali\", age = 15 and total = 0.\n\nChoose meaningful names that describe the data, such as student_name, mark or running_total. In Python, variable names are case-sensitive, cannot begin with a digit and should not contain spaces. Assignment uses =, which stores the value on the right in the variable on the left. Initialise counters and accumulators before using them so that the program does not depend on an undefined value.",
+    "Variable initialisation is listed in the September introduction to Python. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Data types; Arithmetic operators; Sequence",
+    "Task: Create and initialise variables for a student's name, age and average mark. Update one value and display all three.",
+    "September 7–11, 2026 · Textbook pp. 34–36"
+  ],
+  "python-basics": [
+    "Python Basics",
+    "Python Foundations",
+    "Python basics include writing statements, assigning values to variables, receiving input and displaying output. A statement is an instruction that Python executes. Assignment stores a value, input() obtains text from the user and print() displays information.\n\nExample: name = input(\"Enter your name: \") followed by print(\"Hello\", name). Python uses indentation to group statements into blocks. Text values must be enclosed in quotation marks, and spelling and capitalisation of built-in functions must be correct. Read error messages carefully: syntax errors arise from invalid code structure, while runtime errors occur as the program executes.",
+    "The scheme places Python basics in the first practical week. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Input & output; Variables; Sequence",
+    "Task: Write a short program using assignment, input() and print(). Correct a deliberately introduced spelling or indentation error.",
+    "September 7–11, 2026 · Textbook pp. 34–36"
+  ],
+  "type-coercion": [
+    "Type Coercion",
+    "Python Foundations",
+    "Type coercion is the conversion of a value from one data type to another. In Python, explicit conversion is commonly performed using int(), float() and str(). For example, input(\"Enter age: \") returns text; age = int(input(\"Enter age: \")) converts that text into an integer so it can be used in calculations.\n\nConversion must be suitable for the original value. int(\"25\") is valid, but int(\"twenty-five\") causes a ValueError. float(\"3.75\") converts text to a floating-point number. str(25) converts a number to text. When combining input, calculations and output, check each value's type to avoid type errors.",
+    "The scheme introduces type coercion alongside the first Python sequence programs. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Data types; Input & output; Sequence",
+    "Task: Ask the user for two numbers, convert them to int or float, add them and display the numeric result.",
+    "September 14–18, 2026 · Textbook pp. 37–38"
+  ],
+  "arithmetic": [
+    "Arithmetic Operators",
+    "Python Foundations",
+    "Arithmetic operators perform mathematical calculations. In Python, + adds, - subtracts, * multiplies, / performs division, // performs floor division, % returns the remainder and ** raises a value to a power. Parentheses can be used to control the order of evaluation.\n\nFor example, total = price1 + price2 adds two prices, while average = total / 2 calculates their mean. Python follows operator precedence, so multiplication and division are evaluated before addition and subtraction unless parentheses change the order. Choose an appropriate data type and consider whether division may produce a fractional result. Test calculations with values whose answers are easy to verify.",
+    "The scheme covers arithmetic operators and variables/constants in September Week 3. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Variables; Sequence; Binary arithmetic",
+    "Task: Build a calculator that inputs two numbers and displays their sum, difference, product and quotient. Include suitable test values.",
+    "September 14–18, 2026 · Teacher guide pp. 9–11"
+  ],
+  "io": [
+    "Input & Output",
+    "Python Basics",
+    "Input is data supplied to a program, commonly through the keyboard using input(). Output is information presented by the program, commonly using print(). Input values should be stored in variables so they can be processed. Since input() returns a string, convert numeric input with int() or float() before arithmetic.\n\nA typical input-process-output solution asks for a quantity and a unit price, calculates quantity * unit_price and displays the total. Use clear prompts so users know what to enter, and label output so the result is understandable. Test with different valid inputs and consider what happens if the user enters an unexpected value.",
+    "This is a foundational practical connection for the Python sequence work. The scheme lists Python basics and sequence programs. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Variables; Sequence; Type coercion",
+    "Task: Ask for a quantity and unit price, calculate the total cost and display a labelled receipt line.",
+    "September practical work · Textbook pp. 34–38"
+  ],
+  "sequence-programs": [
+    "Python Sequence Programs",
+    "Develop Code",
+    "A sequence program executes statements in order from beginning to end. It typically follows an input → processing → output pattern. There are no conditional branches or loops in a pure sequence solution.\n\nA receipt calculator could input item names, quantities and prices; calculate each line cost; add the line costs; and display the final total. Use variables to store data and intermediate calculations. Convert numeric input before arithmetic, and use meaningful variable names. Trace the program using sample data and check each intermediate value as well as the final output.",
+    "The scheme explicitly schedules Python programs with sequence and further sequence practice. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Variables; Type coercion; Arithmetic operators; Input & output",
+    "Task: Build a receipt calculator that inputs two item prices and quantities, calculates the subtotal and displays the total.",
+    "September 14–October 2, 2026 · Textbook pp. 37–38"
+  ],
+  "relational": [
+    "Relational Operators",
+    "Python Selection",
+    "Relational operators compare two values and return a Boolean result: True or False. Python comparison operators are == (equal to), != (not equal to), > (greater than), < (less than), >= (greater than or equal to) and <= (less than or equal to).\n\nDo not confuse ==, which compares values, with =, which assigns a value. For example, mark >= 50 is True when mark is 50 or greater. Relational expressions are commonly used in IF statements and loops. Test values below, equal to and above a boundary to confirm that the chosen operator matches the requirement.",
+    "The scheme introduces relational operators with Python selection in October Week 2. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Selection; Conditions; Logical operators",
+    "Task: Evaluate <, >, ==, !=, <= and >= using pairs of values. Include equal values and values on either side of a boundary.",
+    "October 5–9, 2026 · Textbook pp. 38–41"
+  ],
+  "logical": [
+    "Logical Operators",
+    "Python Selection",
+    "Logical operators combine or modify Boolean conditions. In Python, and is True only when both conditions are True; or is True when at least one condition is True; not reverses a Boolean result. Logical operators allow a program to test more than one requirement in a single decision.\n\nFor example, age >= 13 and age <= 18 checks whether age is within an inclusive range. The equivalent chained comparison is 13 <= age <= 18. Use parentheses when they make a complex condition easier to read. Build a truth table or test all relevant combinations to verify the result, especially when combining and and or.",
+    "The scheme introduces logical operators in October Week 3. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Selection; Conditions; Relational operators",
+    "Task: Write conditions to check whether a mark is in the range 0–100 and whether a person is eligible for a specified age range. Test all combinations.",
+    "October 12–16, 2026 · Textbook p. 42"
+  ],
+  "conditions": [
+    "Conditions",
+    "Python Selection",
+    "A condition is an expression that evaluates to True or False. Conditions are used to control selection and, in some cases, the continuation of a loop. A condition may contain a relational comparison, a Boolean variable or a combination of expressions using logical operators.\n\nFor example, 0 <= mark <= 100 checks whether a mark is within the valid range. A condition should express the requirement precisely, including whether boundary values are allowed. Check the condition with values that make it True and False, and test boundary values such as 0, 50 and 100 where relevant.",
+    "Conditions connect relational and logical operators to selection in a program. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Relational operators; Logical operators; IF / ELSE",
+    "Task: Create conditions for valid marks (0–100) and passing marks (50 or above). Test 0, 49, 50, 100 and an invalid value.",
+    "Teaching connection for October selection work"
+  ],
+  "if-else": [
+    "IF / ELSE Programs",
+    "Python Selection",
+    "An IF/ELSE structure selects between alternative blocks of code. Python evaluates the condition after if; if it is True, the indented IF block runs. Otherwise, the indented else block runs. Only one of these two branches is executed in a basic IF/ELSE structure.\n\nExample: if mark >= 50: print(\"Pass\") else: print(\"Not yet passed\"). The colon marks the start of each block and indentation identifies the statements inside it. Use elif when several mutually exclusive alternatives are needed. Test both branches and the exact boundary value to ensure the program behaves correctly.",
+    "The scheme schedules Python programs with selection in October. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Conditions; Relational operators; Logical operators",
+    "Task: Write a Pass/Fail program using IF/ELSE. Test 49, 50 and 51 and explain which branch executes.",
+    "October 5–16, 2026 · Textbook pp. 38–42"
+  ],
+  "definite-iteration": [
+    "Definite Iteration",
+    "Python Iteration",
+    "Definite iteration is repetition where the number of times the loop runs is known or determined before the loop begins. Python's for statement is commonly used with range(). For example, for count in range(1, 6): repeats for the values 1, 2, 3, 4 and 5; the upper limit in range() is not included.\n\nA loop can display values, calculate totals or process a fixed number of inputs. Identify the start, stop and step values and remember that range(stop) begins at 0 and stops before stop. Trace each iteration and check the number of executions to avoid off-by-one errors.",
+    "The scheme explicitly schedules Python programs with definite iteration in October Weeks 4 and 5. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Iteration; Repeated instructions; Algorithm design",
+    "Task: Use for and range() to display 1 to 10, then display the first five multiples of a number. Explain the range stop value.",
+    "October 19–30, 2026 · Textbook pp. 43–45"
+  ],
+  "repeated": [
+    "Repeated Instructions",
+    "Python Iteration",
+    "Repeated instructions are statements executed more than once by a loop. Iteration makes programs shorter, clearer and easier to maintain than copying the same statements repeatedly. A loop may repeat a fixed number of times or continue while a condition is satisfied; this section focuses on the definite iteration specified in the scheme.\n\nFor a multiplication sequence, a loop can multiply a fixed number by successive integers and display each result. Keep loop-controlled statements indented inside the loop. Check how the loop variable changes and verify that the loop stops at the intended point.",
+    "Repeated instructions are the practical outcome of iteration and definite iteration. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Definite iteration; Iteration; Algorithm design",
+    "Task: Use a loop to display the multiplication table of a number from ×1 to ×10. Trace the loop variable for each repetition.",
+    "October 19–30, 2026 · Textbook pp. 43–45"
+  ],
+  "binary": [
+    "Binary & Denary",
+    "Data Representation: Binary",
+    "Binary is a base-two number system that uses only the digits 0 and 1. Each position represents a power of two, counted from right to left: 1, 2, 4, 8, 16, 32 and so on. Denary is the base-ten system used in everyday counting, with place values 1, 10, 100 and so on.\n\nA binary value is converted to denary by adding the place values for positions containing 1. For example, 1011₂ = 8 + 2 + 1 = 11₁₀. Denary can be converted to binary using repeated division by 2 or by selecting powers of 2. Practise conversions carefully and preserve leading zeros when a fixed bit width is required.",
+    "The scheme introduces binary and denary systems and conversions in October Week 2. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary to denary; Denary to binary; Binary arithmetic; Binary shifts",
+    "Task: Convert 10110₂ to denary and 19₁₀ to binary. Show place values or division remainders.",
+    "October 5–9, 2026 · Textbook pp. 110–114"
+  ],
+  "binary-to-denary": [
+    "Binary to Denary",
+    "Binary & Denary",
+    "To convert binary to denary, write the place value of each bit, beginning with 1 at the right and doubling for each position to the left. Multiply each bit by its place value and add the results. For example, 1101₂ = (1×8) + (1×4) + (0×2) + (1×1) = 13₁₀.\n\nA reliable method is to create a place-value row above the binary digits, then add only the values whose bits are 1. Check that the answer is within the possible range for the number of bits. For n bits, an unsigned value ranges from 0 to 2ⁿ − 1.",
+    "This conversion is explicitly listed in the October Week 2 theory plan. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary & denary; Place values",
+    "Task: Convert 01010110₂ and 00101101₂ to denary, showing each place-value contribution.",
+    "October 5–9, 2026 · Textbook pp. 110–114"
+  ],
+  "denary-to-binary": [
+    "Denary to Binary",
+    "Binary & Denary",
+    "To convert a denary whole number to binary, express it as a sum of powers of two or repeatedly divide by 2 and record the remainders. When using repeated division, read the remainders from bottom to top. For example, 13 divided repeatedly by 2 produces remainders that read as 1101₂.\n\nFor a fixed-width answer, add leading zeros when necessary; these do not change the value but ensure the representation has the required number of bits. Check the conversion by converting the binary result back to denary.",
+    "This conversion is explicitly listed in the October Week 2 theory plan. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary & denary; Place values",
+    "Task: Convert 13, 25 and 42 to 8-bit binary. Convert each answer back to denary to check it.",
+    "October 5–9, 2026 · Textbook pp. 110–114"
+  ],
+  "binary-arithmetic": [
+    "Binary Arithmetic",
+    "Binary & Denary",
+    "Binary arithmetic performs calculations using base-two numbers. Binary addition follows these rules: 0+0=0, 0+1=1, 1+0=1 and 1+1=10₂ (write 0 and carry 1). When adding several columns, include any carry from the previous column.\n\nFor example, 0101₂ + 0011₂ = 1000₂. Work from the least significant bit on the right towards the left, recording carries carefully. In a fixed-width computer representation, a result may exceed the available number of bits; this is an overflow issue. Check an addition by converting both operands and the result to denary.",
+    "The scheme lists binary arithmetic and signed/unsigned numbers in October Week 3. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary & denary; Signed & unsigned numbers",
+    "Task: Add 0101₂ and 0011₂, showing each carry. Verify the result by converting the operands and answer to denary.",
+    "October 12–16, 2026 · Textbook pp. 114–116"
+  ],
+  "signed-unsigned": [
+    "Signed & Unsigned Numbers",
+    "Binary Arithmetic",
+    "An unsigned binary representation stores only non-negative values. With n bits, its range is 0 to 2ⁿ − 1. A signed representation allows positive and negative values, so some bit patterns are used to represent negative numbers. The range depends on the signed representation method and the number of bits.\n\nFor example, an 8-bit unsigned value ranges from 0 to 255. An 8-bit two's-complement value ranges from −128 to +127. The same bit pattern can therefore have different meanings depending on whether it is interpreted as signed or unsigned. Always identify the representation and bit width before interpreting a binary value.",
+    "The scheme lists signed and unsigned numbers after binary arithmetic. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary arithmetic; Two's complement",
+    "Task: State the range of 8-bit unsigned and 8-bit two's-complement values. Explain why the same bit pattern can have different values.",
+    "October 12–16, 2026 · Textbook pp. 114–116"
+  ],
+  "twos-complement": [
+    "Two's Complement",
+    "Signed & Unsigned Numbers",
+    "Two's complement is a widely used method of representing signed integers in binary. For a fixed number of bits, positive values are represented in ordinary binary (with the most significant bit 0), while negative values are represented using the two's-complement method. To form the negative of a positive binary value: invert every bit (0 becomes 1 and 1 becomes 0), then add 1.\n\nFor n bits, the two's-complement range is −2ⁿ⁻¹ to +2ⁿ⁻¹−1. For 8 bits this is −128 to +127. Keep the bit width fixed throughout the conversion. Verify a negative representation by applying the inverse process or by interpreting its place/sign value according to the method taught.",
+    "The scheme lists two's complement in October Week 4. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Signed & unsigned numbers; Binary shifts",
+    "Task: Using 8 bits, represent −5 and −18 in two's complement. Show inversion and addition of 1.",
+    "October 19–23, 2026 · Textbook pp. 117–121"
+  ],
+  "binary-shifts": [
+    "Binary Shifts",
+    "Binary & Denary",
+    "A binary shift moves the bits in a binary value one or more positions to the left or right. A logical left shift moves bits left and fills the vacated positions on the right with zeros; bits shifted beyond the left edge are lost. A logical right shift moves bits right and fills the vacated positions on the left with zeros.\n\nFor unsigned values, a left shift by one position often corresponds to multiplying by 2, provided no significant bit is lost; a right shift by one often corresponds to integer division by 2. Work with the stated bit width and show any bits that are discarded. Do not assume the arithmetic effect is valid when overflow or signed representations are involved.",
+    "Binary shifts are listed in October Week 4. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary arithmetic; Arithmetic shifts",
+    "Task: Apply one-place and two-place left and right logical shifts to an 8-bit value. Record discarded bits and compare denary values.",
+    "October 19–23, 2026 · Textbook pp. 117–121"
+  ],
+  "arithmetic-shifts": [
+    "Arithmetic Shifts",
+    "Binary Shifts",
+    "An arithmetic shift is used with signed binary values. An arithmetic right shift moves bits to the right while copying the sign bit into the newly vacated leftmost positions, helping preserve the sign of a two's-complement number. An arithmetic left shift moves bits left and inserts zeros on the right, but the result may overflow and may not preserve the original sign or value.\n\nWhen completing a shift, keep the number of bits fixed and identify the sign bit before and after the operation. Follow the exact conventions used in the course material, since treatment of overflow and shift operations can depend on the representation and specification. Practise with positive and negative two's-complement examples.",
+    "The scheme lists arithmetic shifts in October Week 5. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary shifts; Signed numbers",
+    "Task: Perform an arithmetic right shift on positive and negative 8-bit two's-complement values. Track the sign bit.",
+    "October 26–30, 2026 · Textbook pp. 121–124"
+  ],
+  "hexadecimal": [
+    "Hexadecimal",
+    "Data Representation: Binary",
+    "Hexadecimal is a base-sixteen number system. It uses the symbols 0–9 and A–F, where A represents 10, B represents 11, C represents 12, D represents 13, E represents 14 and F represents 15. Each hexadecimal digit corresponds exactly to four binary bits, making hexadecimal a compact way to represent binary data.\n\nThe hexadecimal place values are powers of 16: 1, 16, 256 and so on. To convert hexadecimal to denary, multiply each digit by its place value and add the results. To convert binary to hexadecimal, group bits into sets of four from the right and convert each group. Add leading zeros to complete a four-bit group when necessary. Check conversions by converting the result back.",
+    "The scheme introduces hexadecimal in October Week 5. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Binary & denary; Number representation",
+    "Task: Convert 2F₁₆ to denary and 10101100₂ to hexadecimal. Show the place values and four-bit groups.",
+    "October 26–30, 2026 · Textbook pp. 121–124"
+  ],
+  "assessment": [
+    "October Monthly Assessment",
+    "Assessment checkpoint",
+    "The October monthly assessment is a checkpoint for the theory and practical content identified in the supplied scheme. The stated official coverage is theory textbook pages 1–14 and 110–124, and practical textbook pages 34–45. Topics listed in this knowledge map include algorithms and their representations, Python foundations, sequence, selection, definite iteration, binary/denary conversion, binary arithmetic, signed and unsigned values, two's complement, binary shifts, arithmetic shifts and hexadecimal.\n\nRevision should include both explanation and application. Practise defining key terms, tracing algorithms, completing flowcharts or pseudocode, writing short Python programs, converting number systems and showing calculation steps. Test programs with normal, boundary and alternative inputs. The source identifies the assessment as one paper; it does not specify a mark allocation or detailed question structure.",
+    "Official LIS coverage: theory textbook pages 1–14 and 110–124; practical textbook pages 34–45. The detailed notes above expand the concept for teaching and revision while retaining the scheme's stated coverage.",
+    "Algorithms; Python foundations; Sequence; Selection; Definite iteration; Binary topics",
+    "Task: Complete a mixed revision set: one algorithm design question, one Python trace/programming task, binary conversions and arithmetic, and signed-number/shift questions.",
+    "October 2026 · One paper"
+  ]
+}
