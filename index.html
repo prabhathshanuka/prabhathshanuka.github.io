@@ -1,643 +1,122 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Flood Management System</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #172033;
-    }
-
-    header {
-      background: #12345a;
-      color: white;
-      padding: 24px;
-    }
-
-    header p {
-      color: #d6e5f5;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px #0000000b;
-    }
-
-    .label {
-      color: #64748b;
-      font-size: 14px;
-    }
-
-    .value {
-      font-size: 27px;
-      font-weight: bold;
-      margin-top: 12px;
-      overflow-wrap: anywhere;
-    }
-
-    .chart {
-      margin-top: 20px;
-      height: 300px;
-    }
-
-    #status {
-      font-weight: bold;
-    }
-
-    .muted {
-      color: #64748b;
-      font-size: 13px;
-    }
-
-    /* ==============================
-       FLOOD ALERT POPUP
-    ============================== */
-
-    .flood-overlay[hidden] {
-      display: none !important;
-    }
-
-    .flood-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15, 23, 42, 0.88);
-      overflow-y: auto;
-    }
-
-    .flood-popup {
-      width: 100%;
-      max-width: 650px;
-      padding: 32px;
-      border: 5px solid #dc2626;
-      border-radius: 18px;
-      background: white;
-      color: #172033;
-      text-align: center;
-      box-shadow: 0 0 35px rgba(220, 38, 38, 0.5);
-      animation: warningPulse 1.5s infinite alternate;
-    }
-
-    .warning-icon {
-      font-size: 60px;
-      margin-bottom: 8px;
-    }
-
-    .popup-level {
-      color: #b91c1c;
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 2px;
-      margin: 8px 0;
-    }
-
-    .flood-popup h2 {
-      color: #b91c1c;
-      font-size: clamp(26px, 5vw, 40px);
-      margin: 12px 0;
-    }
-
-    #popupMessage {
-      font-size: 18px;
-      line-height: 1.5;
-    }
-
-    .popup-readings {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin: 24px 0;
-    }
-
-    .popup-readings div {
-      background: #f1f5f9;
-      padding: 14px 8px;
-      border-radius: 10px;
-      overflow-wrap: anywhere;
-    }
-
-    .popup-readings span {
-      display: block;
-      color: #64748b;
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-
-    .popup-readings strong {
-      font-size: 20px;
-      color: #b91c1c;
-    }
-
-    .popup-advice {
-      font-weight: bold;
-      line-height: 1.5;
-      margin: 20px 0;
-    }
-
-    #acknowledgeButton {
-      width: 100%;
-      padding: 15px;
-      border: none;
-      border-radius: 9px;
-      background: #b91c1c;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    #acknowledgeButton:hover {
-      filter: brightness(0.9);
-    }
-
-    /* Level 1: Yellow/orange */
-    .flood-popup.level-1 {
-      border-color: #d97706;
-    }
-
-    .flood-popup.level-1 h2,
-    .flood-popup.level-1 .popup-level,
-    .flood-popup.level-1 .popup-readings strong {
-      color: #b45309;
-    }
-
-    .flood-popup.level-1 #acknowledgeButton {
-      background: #b45309;
-    }
-
-    /* Level 2: Orange */
-    .flood-popup.level-2 {
-      border-color: #ea580c;
-    }
-
-    .flood-popup.level-2 h2,
-    .flood-popup.level-2 .popup-level,
-    .flood-popup.level-2 .popup-readings strong {
-      color: #c2410c;
-    }
-
-    .flood-popup.level-2 #acknowledgeButton {
-      background: #c2410c;
-    }
-
-    /* Level 3: Red */
-    .flood-popup.level-3 {
-      border-color: #dc2626;
-    }
-
-    .flood-popup.level-3 h2,
-    .flood-popup.level-3 .popup-level,
-    .flood-popup.level-3 .popup-readings strong {
-      color: #b91c1c;
-    }
-
-    .flood-popup.level-3 #acknowledgeButton {
-      background: #b91c1c;
-    }
-
-    @keyframes warningPulse {
-      from {
-        box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
-      }
-      to {
-        box-shadow: 0 0 35px rgba(220, 38, 38, 0.6);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .flood-popup {
-        padding: 20px 14px;
-      }
-
-      .popup-readings {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grade 9 Computer Science | Knowledge Portal</title>
+<style>
+:root{--bg:#07100d;--panel:#0c1b15;--panel2:#10251b;--node:#064b2b;--node2:#0b6038;--line:#547264;--text:#e9f5ed;--muted:#a6b9ad;--mint:#9de5b6;--gold:#f0c66b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#123c28 0,#07100d 55%);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,Segoe UI,Arial}
+header{position:sticky;top:0;z-index:10;background:#07100deF;border-bottom:1px solid #294437;backdrop-filter:blur(12px);padding:14px 20px}
+.top{max-width:1500px;margin:auto;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#0a6a3c,#0d3523);display:grid;place-items:center;color:#b8f3ca;font-weight:900}.brand h1{font-size:16px;margin:0;letter-spacing:.04em}.brand small{display:block;color:var(--muted);font-size:11px;letter-spacing:.14em}
+.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}button,input{font:inherit}button{border:1px solid #355646;background:#10251b;color:var(--text);border-radius:10px;padding:9px 12px;cursor:pointer}button:hover{border-color:var(--mint);background:#173b29}input{background:#0c1b15;border:1px solid #355646;color:var(--text);border-radius:10px;padding:10px 12px;min-width:min(260px,70vw);outline:none}input:focus{border-color:var(--mint)}
+main{max-width:1500px;margin:auto;padding:22px 18px 50px}.intro{display:flex;justify-content:space-between;gap:24px;align-items:end;margin:10px 2px 18px;flex-wrap:wrap}.eyebrow{color:var(--mint);font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.intro h2{font-size:clamp(25px,4vw,42px);line-height:1.05;margin:8px 0}.intro p{color:var(--muted);max-width:700px;margin:0}.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px}.dot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.map-shell{border:1px solid #294437;border-radius:18px;background:linear-gradient(180deg,#0a1711,#08110d);overflow:hidden;box-shadow:0 22px 80px #0007}.map-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 14px;border-bottom:1px solid #20392c;color:var(--muted);font-size:12px;flex-wrap:wrap}.map-toolbar strong{color:#dcefe2}.canvas{height:min(76vh,850px);min-height:550px;overflow:hidden;position:relative;touch-action:none;cursor:grab}.canvas.dragging{cursor:grabbing}svg{width:100%;height:100%;display:block}.edge{fill:none;stroke:#668073;stroke-width:2;opacity:.72}.edge.cross{stroke:#9bbaaa;stroke-dasharray:6 7;opacity:.65}.node{cursor:pointer;outline:none}
+.node{cursor:grab;touch-action:none}.node.dragging{cursor:grabbing;filter:drop-shadow(0 7px 9px #0009)}.node.dragging rect{stroke:#b8f3ca;stroke-width:3}
+.node rect{fill:#064b2b;stroke:#27764c;stroke-width:1.5;rx:14;transition:.18s}.node:hover rect,.node:focus rect{fill:#0b6038;stroke:#b2f2c7;stroke-width:2.5}.node text{fill:#d8f5e2;font-size:15px;font-weight:650;text-anchor:middle;pointer-events:none}.node .sub{fill:#9fd8b2;font-size:11px;font-weight:500}.node.dim{opacity:.15}.node.match rect{stroke:var(--gold);stroke-width:3}.node.root rect{fill:#07512e;stroke:#7ddba0;stroke-width:2.2}.node.branch rect{fill:#0a4229}.node.assessment rect{fill:#614a12;stroke:#d8b35a}.map-hint{position:absolute;bottom:12px;left:14px;background:#0b1b13e8;border:1px solid #294437;padding:7px 10px;border-radius:9px;color:var(--muted);font-size:11px;pointer-events:none}.below{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;margin-top:16px}.card{border:1px solid #294437;border-radius:15px;background:#0b1912;padding:16px}.card h3{font-size:14px;margin:0 0 8px}.card p{color:var(--muted);font-size:13px;margin:0}.branch-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.branch-links a{color:#b9edca;text-decoration:none;border:1px solid #315640;border-radius:999px;padding:7px 10px;font-size:12px}.branch-links a:hover{background:#143b27}.status{font-size:12px;color:var(--muted)}footer{color:#718b7a;font-size:11px;margin:18px 2px 0}
+@media(max-width:800px){.below{grid-template-columns:1fr}.canvas{height:68vh;min-height:500px}.intro{align-items:start}}
+</style>
 </head>
-
 <body>
-
-<!-- FLOOD ALERT POPUP -->
-<div id="floodPopup"
-     class="flood-overlay"
-     role="alertdialog"
-     aria-modal="true"
-     aria-labelledby="popupTitle"
-     hidden>
-
-  <div id="floodPopupBox" class="flood-popup level-3">
-
-    <div class="warning-icon">⚠️</div>
-
-    <p id="popupLevel" class="popup-level">
-      FLOOD ALERT LEVEL 3
-    </p>
-
-    <h2 id="popupTitle">
-      CRITICAL FLOOD WARNING
-    </h2>
-
-    <p id="popupMessage">
-      Critical flood risk detected. Check the current conditions.
-    </p>
-
-    <div class="popup-readings">
-      <div>
-        <span>Water Depth</span>
-        <strong id="popupDepth">-- cm</strong>
-      </div>
-
-      <div>
-        <span>Water Rise / Fall Rate</span>
-        <strong id="popupRate">-- cm/min</strong>
-      </div>
-
-      <div>
-        <span>Distance to Water</span>
-        <strong id="popupDistance">-- cm</strong>
-      </div>
-    </div>
-
-    <p id="popupAdvice" class="popup-advice"></p>
-
-    <button id="acknowledgeButton"
-            type="button"
-            onclick="acknowledgeFloodAlert()">
-      Acknowledge Warning
-    </button>
-
-  </div>
-</div>
-
-<!-- DASHBOARD HEADER -->
-<header>
-  <h1>Smart Flood Management System</h1>
-  <p>ESP32 sensor monitoring dashboard</p>
-
-  <div>
-    Connection:
-    <span id="connection">Connecting...</span>
-  </div>
-
-  <p id="updated">Waiting for sensor data...</p>
-</header>
-
-<!-- MAIN DASHBOARD -->
+<header><div class="top">
+<div class="brand"><div class="logo">G9</div><div><h1>COMPUTER SCIENCE</h1><small>INTERACTIVE KNOWLEDGE PORTAL · 2026</small></div></div>
+<div class="actions"><input id="search" type="search" placeholder="Find a topic…"><button id="zoomOut" aria-label="Zoom out">−</button><button id="zoomIn" aria-label="Zoom in">+</button><button id="fit">Fit map</button><button id="reset">Reset</button></div>
+</div></header>
 <main>
-
-  <h2>Live Sensor Readings</h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <div class="label">Water Depth</div>
-      <div class="value" id="depth">-- cm</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Rain Sensor Analog</div>
-      <div class="value" id="rainAnalog">--</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Rain Detected</div>
-      <div class="value" id="rainDetected">--</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Flood Alert Level</div>
-      <div class="value" id="risk">--</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Distance to Water</div>
-      <div class="value" id="distance">-- cm</div>
-    </div>
-
-    <div class="card">
-      <div class="label">Water Rise / Fall Rate</div>
-      <div class="value" id="rate">-- cm/min</div>
-    </div>
-
-  </div>
-
-  <div class="card chart">
-    <h3>Water Depth History</h3>
-    <canvas id="waterChart"></canvas>
-  </div>
-
-  <p class="muted">
-    Data source: ThingSpeak channel 3541164.
-    Readings refresh every 20 seconds.
-  </p>
-
+<section class="intro"><div><div class="eyebrow">Grade 9 · Edexcel · September–October</div><h2>See how Computer Science connects.</h2><p>Explore the knowledge map. Select any topic to open its learning page in a new tab. Follow the lines to see how ideas build on one another.</p></div><div class="legend"><span><i class="dot" style="background:#0b6038"></i>Algorithms</span><span><i class="dot" style="background:#16804a"></i>Python</span><span><i class="dot" style="background:#b08b36"></i>Assessment</span><span>╌╌ Cross-topic connection</span></div></section>
+<section class="map-shell">
+<div class="map-toolbar"><span><strong>KNOWLEDGE NETWORK</strong> · 30+ clickable concepts</span><span id="count" class="status">Drag nodes to arrange your map · Click to learn</span></div>
+<div class="canvas" id="canvas"><svg id="map" viewBox="0 0 2050 1600" role="img" aria-label="Interactive Grade 9 Computer Science knowledge map"><g id="viewport"></g></svg><div class="map-hint">Drag a topic node to reposition it · Lines stay connected · Click to open · Drag empty space to pan</div></div>
+</section>
+<section class="below">
+<div class="card"><h3>Three connected knowledge branches</h3><p>Problem solving and algorithms develop computational thinking. Python turns algorithms into executable programs. Binary introduces how computers represent numerical data.</p><div class="branch-links"><a href="topic.html?id=algorithms" target="_blank">Explore algorithms ↗</a><a href="topic.html?id=python" target="_blank">Explore Python ↗</a><a href="topic.html?id=binary" target="_blank">Explore binary ↗</a></div></div>
+<div class="card"><h3>October assessment checkpoint</h3><p>The LIS scheme specifies theory textbook pages 1–14 and 110–124, and practical pages 34–45. Use the map to revise the connected areas.</p><div class="branch-links"><a href="topic.html?id=assessment" target="_blank">Assessment overview ↗</a></div></div>
+</section>
+<footer>Content structure follows the LIS Grade 9 Scheme of Work 2026–2028, pages 9–10. Explanations and practice prompts are learning-support additions, not verbatim syllabus text.</footer>
 </main>
-
 <script>
-  // =====================================
-  // THINGSPEAK CONFIGURATION
-  // =====================================
-
-  const CHANNEL_ID = "3541164";
-
-  const latestURL =
-    `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds/last.json`;
-
-  const historyURL =
-    `https://api.thingspeak.com/channels/${CHANNEL_ID}/feeds.json?results=30`;
-
-
-  // =====================================
-  // WATER DEPTH HISTORY CHART
-  // =====================================
-
-  const chart = new Chart(
-    document.getElementById("waterChart"),
-    {
-      type: "line",
-
-      data: {
-        labels: [],
-
-        datasets: [{
-          label: "Water depth (cm)",
-          data: [],
-          borderColor: "#1683d8",
-          backgroundColor: "#1683d820",
-          fill: true,
-          tension: 0.3
-        }]
-      },
-
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-
-        scales: {
-          y: {
-            beginAtZero: true,
-
-            title: {
-              display: true,
-              text: "Depth (cm)"
-            }
-          }
-        }
-      }
-    }
-  );
-
-
-  // =====================================
-  // DISPLAY HELPER
-  // =====================================
-
-  function show(id, value, unit = "") {
-    document.getElementById(id).textContent =
-      value === null ||
-      value === undefined ||
-      value === ""
-        ? "--"
-        : value + unit;
-  }
-
-
-  // =====================================
-  // FLOOD ALERT LEVEL PARSER
-  // field4 must contain 0, 1, 2, or 3,
-  // or text such as "Level 2".
-  // =====================================
-
-  function getAlertLevel(value) {
-    if (
-      value === null ||
-      value === undefined ||
-      value === ""
-    ) {
-      return 0;
-    }
-
-    const text = String(value).trim().toLowerCase();
-
-    const match = text.match(/(?:level|alert)\s*([0-3])/);
-
-    if (match) {
-      return Number(match[1]);
-    }
-
-    const number = Number(text);
-
-    if (
-      Number.isInteger(number) &&
-      number >= 0 &&
-      number <= 3
-    ) {
-      return number;
-    }
-
-    return 0;
-  }
-
-
-  // =====================================
-  // FLOOD ALERT POPUP
-  // =====================================
-
-  let currentAlertLevel = 0;
-  let acknowledgedLevel = 0;
-
-  function updateFloodPopup(d) {
-    const level = getAlertLevel(d.field4);
-
-    const popup = document.getElementById("floodPopup");
-    const popupBox = document.getElementById("floodPopupBox");
-
-    // Hide the warning when the alert returns to normal.
-    if (level === 0) {
-      popup.hidden = true;
-      currentAlertLevel = 0;
-      acknowledgedLevel = 0;
-      return;
-    }
-
-    // Reset acknowledgement when the risk level changes.
-    if (level !== currentAlertLevel) {
-      acknowledgedLevel = 0;
-    }
-
-    currentAlertLevel = level;
-
-    // Insert current sensor readings into the popup.
-    show("popupDepth", d.field1, " cm");
-    show("popupRate", d.field6, " cm/min");
-    show("popupDistance", d.field5, " cm");
-
-    // Apply the colour for the active level.
-    popupBox.className = `flood-popup level-${level}`;
-
-    const titles = {
-      1: "WARNING: FLOOD LEVEL 1",
-      2: "DANGER: FLOOD LEVEL 2",
-      3: "CRITICAL: FLOOD LEVEL 3"
-    };
-
-    const messages = {
-      1: "Elevated flood risk detected. Monitor the water level closely.",
-
-      2: "High flood risk detected. Prepare to move to a safer location if necessary.",
-
-      3: "Critical flood risk detected. Follow official emergency instructions and move to safety if advised."
-    };
-
-    const advice = {
-      1: "Monitor the readings and stay alert.",
-
-      2: "Avoid flood-prone areas and prepare for possible evacuation.",
-
-      3: "Prioritize safety. Follow local authorities' emergency guidance."
-    };
-
-    document.getElementById("popupLevel").textContent =
-      `FLOOD ALERT LEVEL ${level}`;
-
-    document.getElementById("popupTitle").textContent =
-      titles[level];
-
-    document.getElementById("popupMessage").textContent =
-      messages[level];
-
-    document.getElementById("popupAdvice").textContent =
-      advice[level];
-
-    // Show the popup unless this same level was acknowledged.
-    popup.hidden = acknowledgedLevel === level;
-  }
-
-
-  // =====================================
-  // ACKNOWLEDGE WARNING BUTTON
-  // =====================================
-
-  function acknowledgeFloodAlert() {
-    acknowledgedLevel = currentAlertLevel;
-
-    document.getElementById("floodPopup").hidden = true;
-  }
-
-
-  // =====================================
-  // FETCH LIVE SENSOR DATA
-  // =====================================
-
-  async function updateDashboard() {
-    try {
-      const response = await fetch(latestURL, {
-        cache: "no-store"
-      });
-
-      if (!response.ok) {
-        throw new Error("Unable to read ThingSpeak channel");
-      }
-
-      const d = await response.json();
-
-      if (!d.created_at) {
-        throw new Error("No sensor readings available");
-      }
-
-      // Update the live dashboard values.
-      show("depth", d.field1, " cm");
-      show("rainAnalog", d.field2);
-      show("rainDetected", d.field3);
-      show("risk", d.field4);
-      show("distance", d.field5, " cm");
-      show("rate", d.field6, " cm/min");
-
-      // Update the flood alert popup.
-      updateFloodPopup(d);
-
-      // Update connection information.
-      document.getElementById("connection").textContent =
-        "Connected";
-
-      document.getElementById("updated").textContent =
-        "Last sensor update: " +
-        new Date(d.created_at).toLocaleString();
-
-      // Fetch water depth history.
-      const historyResponse = await fetch(historyURL, {
-        cache: "no-store"
-      });
-
-      if (!historyResponse.ok) {
-        throw new Error("Unable to load sensor history");
-      }
-
-      const history = await historyResponse.json();
-      const feeds = history.feeds || [];
-
-      chart.data.labels = feeds.map(feed =>
-        new Date(feed.created_at).toLocaleTimeString()
-      );
-
-      chart.data.datasets[0].data = feeds.map(feed =>
-        feed.field1 === null || feed.field1 === ""
-          ? null
-          : Number(feed.field1)
-      );
-
-      chart.update();
-
-    } catch (error) {
-      document.getElementById("connection").textContent =
-        "Connection error";
-
-      console.error("Dashboard update failed:", error);
-    }
-  }
-
-
-  // =====================================
-  // INITIALIZE AND REFRESH
-  // =====================================
-
-  updateDashboard();
-
-  // Refresh every 20 seconds.
-  setInterval(updateDashboard, 20000);
-
+const nodes=[
+{id:"root",label:["GRADE 9 COMPUTER SCIENCE"],x:700,y:20,w:260,h:64,type:"root"},
+{id:"algorithms",label:["PROBLEM SOLVING &","ALGORITHMS"],x:120,y:140,w:230,h:70,type:"branch"},
+{id:"understanding",label:["Understanding Algorithms"],x:105,y:260,w:260,h:62,type:""},
+{id:"written-descriptions",label:["Written Descriptions"],x:10,y:385,w:205,h:60},
+{id:"flowcharts",label:["Flowcharts"],x:270,y:385,w:180,h:60},
+{id:"pseudocode",label:["Pseudocode"],x:500,y:385,w:180,h:60},
+{id:"algorithm-design",label:["Algorithm Design"],x:245,y:510,w:230,h:62},
+{id:"sequence",label:["Sequence"],x:45,y:650,w:170,h:60},
+{id:"selection",label:["Selection"],x:270,y:650,w:170,h:60},
+{id:"iteration",label:["Iteration"],x:495,y:650,w:170,h:60},
+{id:"python",label:["PROGRAMMING WITH","PYTHON"],x:690,y:140,w:230,h:70,type:"branch"},
+{id:"python-foundations",label:["Python Foundations"],x:675,y:260,w:260,h:62},
+{id:"data-types",label:["Data Types"],x:560,y:385,w:180,h:60},
+{id:"variables",label:["Variables & Initialisation"],x:790,y:385,w:230,h:60},
+{id:"python-basics",label:["Python Basics"],x:1070,y:385,w:180,h:60},
+{id:"type-coercion",label:["Type Coercion"],x:560,y:510,w:180,h:60},
+{id:"arithmetic",label:["Arithmetic Operators"],x:790,y:510,w:230,h:60},
+{id:"io",label:["Input & Output"],x:1070,y:510,w:180,h:60},
+{id:"sequence-programs",label:["SEQUENCE PROGRAMS"],x:780,y:650,w:240,h:62},
+{id:"selection-programs",label:["SELECTION"],x:790,y:770,w:180,h:60},
+{id:"relational",label:["Relational Operators"],x:690,y:890,w:210,h:60},
+{id:"logical",label:["Logical Operators"],x:960,y:890,w:210,h:60},
+{id:"conditions",label:["Conditions"],x:825,y:1000,w:170,h:60},
+{id:"if-else",label:["IF / ELSE PROGRAMS"],x:825,y:1110,w:230,h:62},
+{id:"definite-iteration",label:["DEFINITE ITERATION"],x:510,y:1220,w:230,h:62},
+{id:"repeated",label:["Repeated Instructions"],x:510,y:1330,w:230,h:62},
+{id:"binary",label:["DATA REPRESENTATION:","BINARY"],x:1320,y:700,w:250,h:70,type:"branch"},
+{id:"binary-core",label:["Binary & Denary"],x:1340,y:830,w:220,h:62},
+{id:"binary-to-denary",label:["Binary to Denary"],x:1030,y:960,w:190,h:60},
+{id:"denary-to-binary",label:["Denary to Binary"],x:1260,y:960,w:190,h:60},
+{id:"binary-arithmetic",label:["Binary Arithmetic"],x:1480,y:960,w:190,h:60},
+{id:"binary-shifts",label:["Binary Shifts"],x:1710,y:960,w:170,h:60},
+{id:"signed-unsigned",label:["Signed & Unsigned Numbers"],x:1460,y:1080,w:260,h:60},
+{id:"twos-complement",label:["Two's Complement"],x:1430,y:1200,w:220,h:60},
+{id:"arithmetic-shifts",label:["Arithmetic Shifts"],x:1690,y:1200,w:220,h:60},
+{id:"hexadecimal",label:["Hexadecimal"],x:1810,y:1080,w:180,h:60},
+{id:"assessment",label:["OCTOBER MONTHLY","ASSESSMENT"],x:790,y:1500,w:260,h:70,type:"assessment"}
+];
+const edges=[
+["root","algorithms"],["root","python"],["root","binary"],
+["algorithms","understanding"],["understanding","written-descriptions"],["understanding","flowcharts"],["understanding","pseudocode"],
+["written-descriptions","algorithm-design"],["flowcharts","algorithm-design"],["pseudocode","algorithm-design"],
+["algorithm-design","sequence"],["algorithm-design","selection"],["algorithm-design","iteration"],
+["python","python-foundations"],["python-foundations","data-types"],["python-foundations","variables"],["python-foundations","python-basics"],
+["data-types","type-coercion"],["variables","arithmetic"],["python-basics","io"],
+["type-coercion","sequence-programs"],["arithmetic","sequence-programs"],["io","sequence-programs"],
+["sequence-programs","selection-programs"],["selection-programs","relational"],["selection-programs","logical"],
+["relational","conditions"],["logical","conditions"],["conditions","if-else"],["if-else","definite-iteration"],["definite-iteration","repeated"],
+["binary","binary-core"],["binary-core","binary-to-denary"],["binary-core","denary-to-binary"],["binary-core","binary-arithmetic"],["binary-core","binary-shifts"],
+["binary-arithmetic","signed-unsigned"],["signed-unsigned","twos-complement"],["binary-shifts","arithmetic-shifts"],["binary-shifts","hexadecimal"],
+["sequence","assessment"],["if-else","assessment"],["repeated","assessment"],["twos-complement","assessment"],["arithmetic-shifts","assessment"],["hexadecimal","assessment"],
+["pseudocode","sequence-programs","cross"],["flowcharts","if-else","cross"],["iteration","definite-iteration","cross"],["logical","conditions","cross"]
+];
+const svgNS="http://www.w3.org/2000/svg", g=document.getElementById("viewport"), byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+function el(tag,attrs,parent=g){const e=document.createElementNS(svgNS,tag);Object.entries(attrs||{}).forEach(([k,v])=>e.setAttribute(k,v));parent.appendChild(e);return e}
+function center(n){return [n.x+n.w/2,n.y+n.h/2]}
+const edgeEls=[];
+function edgePath(a,b){const A=byId[a],B=byId[b];const [ax,ay]=center(A),[bx,by]=center(B);let d;if(Math.abs(bx-ax)>Math.abs(by-ay)*1.25){const mid=(ax+bx)/2;d=`M ${ax} ${ay} C ${mid} ${ay}, ${mid} ${by}, ${bx} ${by}`}else{const mid=(ay+by)/2;d=`M ${ax} ${ay} C ${ax} ${mid}, ${bx} ${mid}, ${bx} ${by}`}return d}
+function redrawEdges(){edgeEls.forEach(({path,a,b})=>path.setAttribute("d",edgePath(a,b)))}
+edges.forEach(([a,b,kind])=>{if(!byId[a]||!byId[b])return;const path=el("path",{d:edgePath(a,b),class:"edge "+(kind==="cross"?"cross":"")});edgeEls.push({path,a,b})});
+const nodeEls={};
+const originalPositions=Object.fromEntries(nodes.map(n=>[n.id,{x:n.x,y:n.y}]));
+const layoutKey="grade9cs-map-layout-v1";
+try{const saved=JSON.parse(localStorage.getItem(layoutKey)||"{}");nodes.forEach(n=>{if(saved[n.id]&&Number.isFinite(saved[n.id].x)&&Number.isFinite(saved[n.id].y)){n.x=saved[n.id].x;n.y=saved[n.id].y}})}catch(e){}
+function saveLayout(){try{localStorage.setItem(layoutKey,JSON.stringify(Object.fromEntries(nodes.map(n=>[n.id,{x:n.x,y:n.y}]))))}catch(e){}}
+nodes.forEach(n=>{const group=el("g",{class:"node "+(n.type||""),transform:`translate(${n.x},${n.y})`,tabindex:"0",role:"link","aria-label":"Drag to move or click to open "+n.id});nodeEls[n.id]=group;el("rect",{width:n.w,height:n.h},group);const t=el("text",{x:n.w/2,y:n.label.length===1?n.h/2+5:n.h/2-4},group);n.label.forEach((line,i)=>{const span=el("tspan",{x:n.w/2,dy:i===0?0:19},t);span.textContent=line});
+let down=null,moved=false;
+group.addEventListener("pointerdown",e=>{if(e.button!==0)return;e.preventDefault();e.stopPropagation();const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const local=pt.matrixTransform(g.getScreenCTM().inverse());down={pointerId:e.pointerId,dx:local.x-n.x,dy:local.y-n.y,startX:e.clientX,startY:e.clientY};moved=false;group.setPointerCapture(e.pointerId);group.classList.add("dragging")});
+group.addEventListener("pointermove",e=>{if(!down||down.pointerId!==e.pointerId)return;const dist=Math.hypot(e.clientX-down.startX,e.clientY-down.startY);if(dist>3)moved=true;if(!moved)return;const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const local=pt.matrixTransform(g.getScreenCTM().inverse());n.x=local.x-down.dx;n.y=local.y-down.dy;group.setAttribute("transform",`translate(${n.x},${n.y})`);redrawEdges()});
+function finishDrag(e){if(!down)return;group.classList.remove("dragging");if(moved)saveLayout();down=null}
+group.addEventListener("pointerup",finishDrag);group.addEventListener("pointercancel",finishDrag);
+group.addEventListener("click",e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;return}const id=n.id==="root"?"algorithms":n.id==="understanding"?"algorithms":n.id==="python-foundations"?"python":n.id==="selection-programs"?"selection":n.id==="binary-core"?"binary":n.id;window.open("topic.html?id="+encodeURIComponent(id),"_blank","noopener")});
+group.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();const id=n.id==="root"?"algorithms":n.id==="understanding"?"algorithms":n.id==="python-foundations"?"python":n.id==="selection-programs"?"selection":n.id==="binary-core"?"binary":n.id;window.open("topic.html?id="+encodeURIComponent(id),"_blank","noopener")}});
+});
+function restoreLayout(){nodes.forEach(n=>{n.x=originalPositions[n.id].x;n.y=originalPositions[n.id].y;nodeEls[n.id].setAttribute("transform",`translate(${n.x},${n.y})`)});redrawEdges();try{localStorage.removeItem(layoutKey)}catch(e){}}
+
+const svg=document.getElementById("map"),canvas=document.getElementById("canvas");let scale=0.72,tx=0,ty=0,drag=false,sx=0,sy=0,ox=0,oy=0;
+function apply(){g.setAttribute("transform",`translate(${tx} ${ty}) scale(${scale})`)}
+function fit(){const box=canvas.getBoundingClientRect(),s=Math.min(box.width/1950,box.height/1600)*.92;scale=s;tx=(box.width-1950*s)/2;ty=15;apply()}
+document.getElementById("zoomIn").onclick=()=>{scale=Math.min(1.5,scale*1.15);apply()};document.getElementById("zoomOut").onclick=()=>{scale=Math.max(.25,scale/1.15);apply()};document.getElementById("fit").onclick=fit;document.getElementById("reset").onclick=()=>{restoreLayout();fit();document.getElementById("search").value="";filter("")};
+canvas.addEventListener("pointerdown",e=>{if(e.target.closest(".node"))return;drag=true;canvas.classList.add("dragging");sx=e.clientX;sy=e.clientY;ox=tx;oy=ty;canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!drag)return;tx=ox+e.clientX-sx;ty=oy+e.clientY-sy;apply()});canvas.addEventListener("pointerup",()=>{drag=false;canvas.classList.remove("dragging")});canvas.addEventListener("wheel",e=>{e.preventDefault();const f=e.deltaY<0?1.08:.92;scale=Math.max(.22,Math.min(1.8,scale*f));apply()},{passive:false});
+function filter(q){q=q.toLowerCase().trim();let count=0;document.querySelectorAll(".node").forEach((g,i)=>{const n=nodes[i],match=!q||n.id.includes(q)||n.label.join(" ").toLowerCase().includes(q);g.classList.toggle("dim",!match);g.classList.toggle("match",!!q&&match);if(match&&q)count++});document.getElementById("count").textContent=q?(count+" matching topic(s)"):"Drag nodes to arrange your map · Click to learn"}
+document.getElementById("search").addEventListener("input",e=>filter(e.target.value));window.addEventListener("resize",fit);fit();
 </script>
-
-</body>
-</html>
+</body></html>
