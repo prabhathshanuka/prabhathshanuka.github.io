@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Browse Dependabits study notes and educational articles by subject and topic.">
+  <meta name="theme-color" content="#082d3b">
+  <title>Learning Notes | Dependabits</title>
+  <link rel="icon" href="../assets/images/dependabits-logo.png">
+  <link rel="stylesheet" href="css/notes.css">
+  <script src="js/topics.js" defer></script>
+</head>
+<body>
+  <header class="notes-header">
+    <a class="notes-brand" href="index.html"><span class="brand-symbol">D<span>.</span></span><span><strong>DEPENDABITS</strong><small>LEARNING NOTES</small></span></a>
+    <nav><a href="../index.html">Main website ↗</a><a href="index.html" aria-current="page">Topics</a></nav>
+  </header>
+  <main>
+    <section class="notes-hero">
+      <div class="wrap notes-hero-inner">
+        <p class="eyebrow">THINK. BUILD. EVOLVE.</p>
+        <h1>Explore ideas.<br><span>Understand more.</span></h1>
+        <p>Study notes and learning articles prepared by Dependabits. Choose a subject, explore its topics and open the notes you need.</p>
+        <label class="search-field"><span>⌕</span><input id="topicSearch" type="search" placeholder="Search subjects, topics or subtopics..." autocomplete="off"></label>
+      </div>
+    </section>
+    <section class="wrap topic-section">
+      <div class="section-top"><div><p class="eyebrow">THE NOTES LIBRARY</p><h2>Browse by subject</h2></div><span id="topicCount" class="muted"></span></div>
+      <div id="topicLibrary" class="subject-list" aria-live="polite">
+        <p class="loading">Loading topics...</p>
+      </div>
+      <div id="noTopics" class="empty" hidden><h3>No matching topics</h3><p>Try another search term.</p></div>
+    </section>
+  </main>
+  <footer class="notes-footer"><div class="wrap footer-inner"><a class="notes-brand footer-logo" href="index.html"><span class="brand-symbol">D<span>.</span></span><span><strong>DEPENDABITS</strong><small>LEARNING NOTES</small></span></a><p>Independent learning notes by Dependabits.</p><a href="https://www.dependabits.com/">Visit Dependabits ↗</a></div><div class="wrap footer-bottom">© <span id="year"></span> Dependabits. All rights reserved.</div></footer>
+</body>
+</html>

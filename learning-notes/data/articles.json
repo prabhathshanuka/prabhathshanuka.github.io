@@ -1,0 +1,94 @@
+{
+  "articles": [
+    {
+      "id": "introduction-to-algorithms",
+      "title": "Introduction to Algorithms",
+      "subject": "Computer Science",
+      "topic": "Algorithms",
+      "level": "Upper Secondary · Grades 10–11",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/introduction-to-algorithms.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "flowcharts",
+      "title": "Flowcharts",
+      "subject": "Computer Science",
+      "topic": "Algorithms",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/flowcharts.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "pseudocode",
+      "title": "Pseudocode",
+      "subject": "Computer Science",
+      "topic": "Algorithms",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/pseudocode.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "trace-tables",
+      "title": "Trace Tables",
+      "subject": "Computer Science",
+      "topic": "Algorithms",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/trace-tables.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "von-neumann-architecture",
+      "title": "Von Neumann Architecture",
+      "subject": "Computer Science",
+      "topic": "Computer Systems",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/von-neumann-architecture.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "cpu-components",
+      "title": "CPU Components",
+      "subject": "Computer Science",
+      "topic": "Computer Systems",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/cpu-components.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "memory",
+      "title": "Memory",
+      "subject": "Computer Science",
+      "topic": "Computer Systems",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/memory.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "variables-data-types",
+      "title": "Variables and Data Types",
+      "subject": "Computer Science",
+      "topic": "Programming",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/variables-data-types.md",
+      "updated": "2026-11-21"
+    },
+    {
+      "id": "selection-iteration",
+      "title": "Selection and Iteration",
+      "subject": "Computer Science",
+      "topic": "Programming",
+      "level": "",
+      "curriculum": "Pearson Edexcel",
+      "file": "articles/selection-iteration.md",
+      "updated": "2026-11-21"
+    }
+  ]
+}

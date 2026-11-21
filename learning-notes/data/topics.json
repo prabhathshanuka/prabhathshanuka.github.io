@@ -1,0 +1,101 @@
+{
+  "subjects": [
+    {
+      "id": "computer-science",
+      "name": "Computer Science",
+      "description": "Computing concepts, algorithms and problem-solving.",
+      "topics": [
+        {
+          "id": "algorithms",
+          "name": "Algorithms",
+          "subtopics": [
+            {
+              "name": "Introduction to Algorithms",
+              "articleId": "introduction-to-algorithms"
+            },
+            {
+              "name": "Flowcharts",
+              "articleId": "flowcharts"
+            },
+            {
+              "name": "Pseudocode",
+              "articleId": "pseudocode"
+            },
+            {
+              "name": "Trace Tables",
+              "articleId": "trace-tables"
+            }
+          ]
+        },
+        {
+          "id": "computer-systems",
+          "name": "Computer Systems",
+          "subtopics": [
+            {
+              "name": "Von Neumann Architecture",
+              "articleId": "von-neumann-architecture"
+            },
+            {
+              "name": "CPU Components",
+              "articleId": "cpu-components"
+            },
+            {
+              "name": "Memory",
+              "articleId": "memory"
+            }
+          ]
+        },
+        {
+          "id": "programming",
+          "name": "Programming",
+          "subtopics": [
+            {
+              "name": "Variables and Data Types",
+              "articleId": "variables-data-types"
+            },
+            {
+              "name": "Selection and Iteration",
+              "articleId": "selection-iteration"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mathematics",
+      "name": "Mathematics",
+      "description": "Mathematical understanding, reasoning and problem-solving.",
+      "topics": []
+    },
+    {
+      "id": "english",
+      "name": "English",
+      "description": "Reading, writing, language and communication.",
+      "topics": []
+    },
+    {
+      "id": "science",
+      "name": "Science",
+      "description": "Scientific concepts, investigation and discovery.",
+      "topics": []
+    },
+    {
+      "id": "ict",
+      "name": "ICT",
+      "description": "Digital literacy and information technology.",
+      "topics": []
+    },
+    {
+      "id": "python-programming",
+      "name": "Python Programming",
+      "description": "Programming concepts and practical coding.",
+      "topics": []
+    },
+    {
+      "id": "steam",
+      "name": "STEAM Education",
+      "description": "Science, technology, engineering, arts and mathematics.",
+      "topics": []
+    }
+  ]
+}
